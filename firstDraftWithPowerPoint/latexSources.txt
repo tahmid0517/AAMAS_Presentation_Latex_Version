@@ -1,0 +1,89 @@
+\dot{x} = f(x) + g(x)u, \,\, x \in \mathbb{R}^n, \,\, u \in \mathbb{R}^p
+
+=============================================================================================
+
+\tilde{J}_i (x) \approx \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau, \,\, q_i(x) \ge 0
+
+===============================================================================================
+
+ \min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 + \kappa { \lVert \delta \rVert }^2 \\
+                \textrm{s.t.} \quad & L_f \tilde{J}_1 (x) + L_g \tilde{J}_1 (x) u \le - \sigma_1(x) + \delta_1 \\
+                \quad & \vdots \\
+                \quad & L_f \tilde{J}_N (x) + L_g \tilde{J}_N (x) u \le - \sigma_N(x) + \delta_N \\
+                \quad & K \delta \ge 0
+
+=================================================================================================
+
+ \min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 + \kappa { \lVert \delta \rVert }^2 \\
+                \textrm{s.t.} \quad & L_f \tilde{J}_1 (x) + L_g \tilde{J}_1 (x) u \le - \sigma_1(x) + \delta_1 \\
+                \quad & \vdots \\
+                \quad & L_f \tilde{J}_N (x) + L_g \tilde{J}_N (x) u \le - \sigma_N(x) + \delta_N \\
+                \quad & K \delta \ge 0,\\
+                \quad & \text{Note that:}\, L_f \tilde{J}_i(x) = \frac{\partial \tilde{J}_i}{\partial x} f(x), \, L_g \tilde{J}_i(x) = \frac{\partial \tilde{J}_i}{\partial x} g(x)
+
+===========================================================================================================
+
+u^{\star} = - \frac{1}{2} ( L_g \tilde{J}_i (x) )^{\top} = - \frac{1}{2} g(x)^{\top} \left( \frac{\partial \tilde{J}_i}{\partial x} \right)^{\top}
+
+================================================================================================================
+
+\begin{align*}
+\tilde{J}_1 &\rightarrow \textrm{Learn to avoid circular region} \\
+\tilde{J}_2 &\rightarrow \textrm{Learn to go to some point}
+\end{align*}
+
+==================================================================================================================
+
+\begin{align*}
+\tilde{J}_1 &\rightarrow \textrm{Form a triangle} \\
+\tilde{J}_2 &\rightarrow \textrm{Send one robot to a point}
+\end{align*}
+
+=====================================================================================================================
+
+\begin{align*}
+\tilde{J}_1 &\rightarrow \textrm{Avoid square-shaped region} \\
+\tilde{J}_2 &\rightarrow \textrm{Go to some point}
+\end{align*}
+
+============================================================================================================================
+
+\tilde{J}_1, \ldots \tilde{J}_N \,\,\, \textrm{are independent at $x \in \mathcal{X}$} \\ 
+\Updownarrow \\
+L_g \tilde{J}_1 (x)^{\top}, \ldots, L_g \tilde{J}_1 (x)^{\top} \,\,\, \textrm{are linearly independent}
+
+=============================================================================================================================
+
+\tilde{J}_1, \ldots \tilde{J}_N \,\,\, \textrm{are orthogonal at $x \in \mathcal{X}$} \\ 
+\Updownarrow \\
+\langle L_g \tilde{J}_1 (x)^{\top}, L_g \tilde{J}_1 (x)^{\top} \rangle = 0 \,\,\, \forall \,\, i, j \in \{1,\ldots,N \}
+
+==================================================================================================================================
+
+\begin{align*}
+                \tilde{J}_{N + 1} \approx \min_{u(\cdot)} \int_t^{\infty} e^{- \beta \tau } \left( q_{N + 1}(x) + { \lVert u \rVert }^2 + { \color{red} \sum_{i = 1}^N ( L_g \tilde{J}_i (x) u)^2 \lambda_i } \right) d \tau
+        \end{align*}
+
+==================================================================================================================================
+
+\begin{align*}
+                u^{\star} &= - \frac{1}{2} {R(x)}^{-1} ( L_g \tilde{J}_{N + 1} (x) )^{\top} \\ 
+                R(x) &= I + \sum_{i = 1}^N ( L_g \tilde{J}_i (x) )^{\top} L_g \tilde{J}_i (x)
+\end{align*}
+
+===================================================================================================================================
+
+\textrm{Assume that $\tilde{J}_1, \ldots, \tilde{J}_N$ at $x \in \mathcal{X}$.}\\
+\textrm{If we train a new cost-to-go function, $\tilde{J}_{N + 1}$ to be independent to $\tilde{J}_1, \ldots, \tilde{J}_N,$}\\
+\textrm{$\tilde{J}_{N + 1}$ is orthogonal to each of $\tilde{J}_1, \ldots, \tilde{J}_N$ at $x \in \mathcal{X}$.}\\
+\Updownarrow\\
+\textrm{The optimal input is $- \frac{1}{2} L_g \tilde{J}_{N + 1} (x)^{\top}$.}
+
+====================================================================================================================================
+
+\begin{align*}
+\tilde{J}_1 &\rightarrow \textrm{Avoid a square-shaped region} \\
+\tilde{J}_2 &\rightarrow \textrm{Form a triangle}
+\end{align*}
+
+

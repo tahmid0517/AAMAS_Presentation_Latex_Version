@@ -1,0 +1,11 @@
+Notes:
+	- put the last 2 scenarios in same slide and go over it briefly
+	- Make equations same size 
+	- Add goal/objective side 
+		- Problem Statement
+	- Make clearer connection between RL and optimal control
+	- Conclude with GIFs of simulations
+	- Could use tables as backups slides in case anyone asks questions
+	- Correct subscripts in independence and othogonality slide
+	- Redundancy -> Make this clearer
+	- 
