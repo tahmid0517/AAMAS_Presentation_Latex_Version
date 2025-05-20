@@ -1,0 +1,4 @@
+\babel@toc {american}{}
+\babel@toc {american}{}
+\beamer@sectionintoc {1}{Math Expressions}{6}{0}{1}
+\beamer@sectionintoc {2}{Elements}{9}{0}{2}
