@@ -35,17 +35,51 @@
 	\end{align*}}
 		\item{Assume that each RL task we learn is encoded with a ``cost-to-go"/value function of the form:
 	\begin{align*}
-		\tilde{J}_i (x) &\approx \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau, \,\, q_i(x) \ge 0
+		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau, \,\, q_i(x) \ge 0
 	\end{align*}}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	Frame without a title
+\section{Key Related Works}
+
+\begin{frame}{Related Work - Combining Learned Tasks Using a Min-Norm Controller}
 	\begin{itemize}
-		\item Frames do not need to have a title...
+		\item{Treat learned value functions as Control Lyapunov Functions}
+		\item{Make progress on each task using constrained optimization problem}
 	\end{itemize}
+	\begin{align*}
+		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \, { \color{gray} + \, \kappa { \lVert \delta \rVert }^2 } \\
+		\textrm{s.t.} \quad & L_f {J}_1 (x) + L_g {J}_1 (x) u \le - \sigma_1(x) \, {\color{gray} + \, \delta_1 } \\
+                \quad & \vdots \\
+		\quad & L_f {J}_N (x) + L_g {J}_N (x) u \le - \sigma_N(x) \, {\color{gray} + \, \delta_N } \\
+		\quad & { \color{gray} K \delta \ge 0 }
+	\end{align*}
+        Note that: $L_f {J}_i(x) = \frac{\partial {J}_i}{\partial x} f(x), \, L_g {J}_i(x) = \frac{\partial {J}_i}{\partial x} g(x)$.\\
+	\seprule
+	\footnotesize{[1] G. Notomista, “A Constrained-Optimization Approach to the Execution of Prioritized Stacks of Learned Multi-robot Tasks,” in Distributed Autonomous Robotic Systems, 2024, pp. 479–493}
 \end{frame}
+
+\begin{frame}{Related Work - Value Iteration for Continuous Action Spaces}
+	FINISH THIS
+	\begin{itemize}
+		\item{Assume continuous, control-affine dynamics and cost function as mentioned previously}
+	\end{itemize}
+	\begin{align*}
+		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \, { \color{gray} + \, \kappa { \lVert \delta \rVert }^2 } \\
+		\textrm{s.t.} \quad & L_f {J}_1 (x) + L_g {J}_1 (x) u \le - \sigma_1(x) \, {\color{gray} + \, \delta_1 } \\
+                \quad & \vdots \\
+		\quad & L_f {J}_N (x) + L_g {J}_N (x) u \le - \sigma_N(x) \, {\color{gray} + \, \delta_N } \\
+		\quad & { \color{gray} K \delta \ge 0 }
+	\end{align*}
+	\begin{itemize}
+		\item{Use expression from solved HJB equation as ``optimal input" at each iteration to approximate value function}
+	\end{itemize}
+	\seprule
+	\footnotesize{[1] G. Notomista, “A Constrained-Optimization Approach to the Execution of Prioritized Stacks of Learned Multi-robot Tasks,” in Distributed Autonomous Robotic Systems, 2024, pp. 479–493}
+\end{frame}
+
+
+
 
 \section{Math Expressions}
 \begin{frame}{Integrals and Other Expressions}
