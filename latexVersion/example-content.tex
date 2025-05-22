@@ -74,7 +74,15 @@
 \end{frame}
 
 \begin{frame}{Related Work - Independence and Orthogonality for Robotic Control Tasks}
-	Come back to this. Finish the other slides first.
+	\begin{itemize}
+		\item{Work in [3] defines notions of independence and orthogonality between Jacobian-based tasks to analyze how multi-joint robot arms can achieve multiple tasks at the same time.}
+		\item{Work in [4] define these notions for Extended Set-Based Tasks.}
+	\end{itemize}
+
+	\seprule
+	\footnotesize{[3] Gianluca Antonelli. 2009. Stability Analysis for Prioritized Closed-Loop Inverse Kinematic Algorithms for Redundant Robotic Systems. IEEE Transactions on Robotics 25, 5 (2009), 985–994}\\
+	\footnotesize{[4] Gennaro Notomista, Mario Selvaggio, María Santos, Siddharth Mayya, Francesca Pagano, Vincenzo Lippiello, and Cristian Secchi. 2023. Beyond Jacobian-based tasks: Extended set-based tasks for multi-task execution and prioritization. (2023).}
+
 \end{frame}
 
 \begin{frame}{How do we know that tasks are compatible with each other?}
@@ -124,7 +132,7 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Definitions of \textit{Independence} and \textit{Orthogonality}}
+\begin{frame}{Definitions of Independence and Orthogonality}
 	\begin{align*}
 		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \\
 		\textrm{s.t.} \quad & L_f {J}_1 (x) + { \color{red} L_g {J}_1 (x) } u \le - \sigma_1(x) \\
