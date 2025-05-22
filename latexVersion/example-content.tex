@@ -2,11 +2,6 @@
 \begin{frame}{Motivation}
 	\begin{minipage}{\textwidth}
 		\centering		
-		%\includegraphics[width=0.2\linewidth]{robotArmGeneric}
-		%\includegraphics[width=0.5\linewidth]{robotArmGeneric}
-		%\includegraphics[width=0.2\linewidth]{multiRobotRoboHub}
-		%\includegraphics[width=0.2\linewidth]{multiRobotRobotarium}
-		%\includegraphics[width=0.2\linewidth]{c3po}
 		\includegraphics[width=0.85\linewidth]{motivationsCombined}
 	\end{minipage}%
 	\seprule
@@ -202,7 +197,21 @@ the optimal input is $- \frac{1}{2} L_g {J}_{N + 1} (x)^{\top}$.
 \end{frame}
 
 \begin{frame}{We tried our idea on other scenarios.}
-	Add pictures here.
+	\begin{minipage}{\textwidth}
+		\centering		
+		\includegraphics[width=0.4\linewidth]{multRobotSim1}
+		\includegraphics[width=0.4\linewidth]{multRobotSim2}
+		\includegraphics[width=0.4\linewidth]{multiRobotRoboHub}
+	\end{minipage}%
+\end{frame}
+
+\begin{frame}{Summary of Contributions}
+	\begin{itemize}
+		\item{Defined notions of independence and orthogonality for learned value functions}
+		\item{Introduced ``interference'' for encouraging newly trained value functions to be independent to previous ones}
+		\item{Introduced variant of value iteration for continuous input/action space that can fit cost functionals with this new ``interference'' cost}
+		\item{Tested our idea in a few different scenarios involving controlling a team of mobile robots}
+	\end{itemize}
 \end{frame}
 
 \end{document}
