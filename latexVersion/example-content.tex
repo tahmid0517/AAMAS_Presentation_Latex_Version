@@ -33,9 +33,9 @@
 	\begin{align*}
 		\dot{x} &= f(x) + g(x)u, \,\, x \in \mathbb{R}^n, \,\, u \in \mathbb{R}^p
 	\end{align*}}
-		\item{Assume that each RL task we learn is encoded with a ``cost-to-go"/value function of the form:
+		\item{Assume that each RL task we learn is encoded with a ``cost-to-go''/value function of the form:
 	\begin{align*}
-		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau, \,\, q_i(x) \ge 0
+		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau && \text{$q_i$ is P.S.D}
 	\end{align*}}
 	\end{itemize}
 \end{frame}
@@ -60,24 +60,98 @@
 \end{frame}
 
 \begin{frame}{Related Work - Value Iteration for Continuous Action Spaces}
-	FINISH THIS
-	\begin{itemize}
-		\item{Assume continuous, control-affine dynamics and cost function as mentioned previously}
-	\end{itemize}
+	Assume continuous, control-affine dynamics and cost function as mentioned previously.
 	\begin{align*}
-		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \, { \color{gray} + \, \kappa { \lVert \delta \rVert }^2 } \\
-		\textrm{s.t.} \quad & L_f {J}_1 (x) + L_g {J}_1 (x) u \le - \sigma_1(x) \, {\color{gray} + \, \delta_1 } \\
-                \quad & \vdots \\
-		\quad & L_f {J}_N (x) + L_g {J}_N (x) u \le - \sigma_N(x) \, {\color{gray} + \, \delta_N } \\
-		\quad & { \color{gray} K \delta \ge 0 }
+		\dot{x} &= f(x) + g(x)u, \,\, x \in \mathbb{R}^n, \,\, u \in \mathbb{R}^p \\
+		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau
 	\end{align*}
-	\begin{itemize}
-		\item{Use expression from solved HJB equation as ``optimal input" at each iteration to approximate value function}
-	\end{itemize}
+	Use expression from solved HJB equation as ``optimal input'' at each iteration.
+	\begin{align*}
+		u^{\star} &= - \frac{1}{2} ( L_g {J}_i (x) )^{\top} = - \frac{1}{2} g(x)^{\top} \left( \frac{\partial {J}_i}{\partial x} \right)^{\top}
+	\end{align*}
 	\seprule
-	\footnotesize{[1] G. Notomista, “A Constrained-Optimization Approach to the Execution of Prioritized Stacks of Learned Multi-robot Tasks,” in Distributed Autonomous Robotic Systems, 2024, pp. 479–493}
+	\footnotesize{2] M. Lutter, S. Mannor, J. Peters, D. Fox, and A. Garg, “Value Iteration in Continuous Actions, States and Time,” in Proceedings of the 38th International Conference on Machine Learning, Jul. 2021, vol. 139, pp. 7224–7234.}
 \end{frame}
 
+\begin{frame}{Related Work - Independence and Orthogonality for Robotic Control Tasks}
+	Come back to this. Finish the other slides first.
+\end{frame}
+
+\begin{frame}{How do we know that tasks are compatible with each other?}
+	\begin{align*}
+		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \\
+		\textrm{s.t.} \quad & L_f {J}_1 (x) + { \color{red} L_g {J}_1 (x) } u \le - \sigma_1(x) \\
+                \quad & \vdots \\
+		\quad & L_f {J}_N (x) + { \color{red} L_g {J}_N (x) } u \le - \sigma_N(x) \\
+	\end{align*}
+	\centering
+	We do not.
+\end{frame}
+
+\begin{frame}{Sometimes they are compatible}
+	\begin{align*}
+		{J}_1 &\rightarrow \textrm{Learn to avoid circular region} \\
+		{J}_2 &\rightarrow \textrm{Learn to go to some point}
+	\end{align*}
+	<ADD ``ANIMATION">
+\end{frame}
+
+\begin{frame}{Sometimes they are compatible}
+	\begin{align*}
+		{J}_1 &\rightarrow \textrm{Learn to form a triangle} \\
+		{J}_2 &\rightarrow \textrm{Learn to send one robot to a point}
+	\end{align*}
+	<ADD ``ANIMATION">
+\end{frame}
+
+\begin{frame}{Sometimes they are NOT compatible}
+	\begin{align*}
+		{J}_1 &\rightarrow \textrm{Learn to avoid square-shaped region} \\
+		{J}_2 &\rightarrow \textrm{Learn to go to a point}
+	\end{align*}
+	<ADD ``ANIMATION">
+\end{frame}
+
+\begin{frame}{Sometimes they are NOT compatible}
+	\begin{minipage}{\textwidth}
+		\centering		
+		\includegraphics[width=1.\linewidth]{diagramMath}
+	\end{minipage}%
+	\seprule
+	\begin{itemize}
+		\item{The above are heat maps of the two value functions.}
+		\item{Combining them results in the trajectory on the right.}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Definitions of \textit{Independence} and \textit{Orthogonality}}
+	\begin{align*}
+		\min_{u \in \mathcal{U}, \delta \in \mathbb{R}^N} \quad & { \lVert u \rVert }^2 \\
+		\textrm{s.t.} \quad & L_f {J}_1 (x) + { \color{red} L_g {J}_1 (x) } u \le - \sigma_1(x) \\
+                \quad & \vdots \\
+		\quad & L_f {J}_N (x) + { \color{red} L_g {J}_N (x) } u \le - \sigma_N(x) \\
+	\end{align*}
+\end{frame}
+
+\begin{frame}{Definitions of \textit{Independence} and \textit{Orthogonality}}
+	\centering
+	\begin{align*}
+		{J}_1, \ldots {J}_N \,\,\, \textrm{are \textit{independent} at $x \in \mathcal{X}$} &\Leftrightarrow L_g {J}_1 (x)^{\top}, \ldots, L_g {J}_N (x)^{\top} \,\,\, \textrm{are linearly independent}\\
+		\\
+		{J}_1, \ldots {J}_N \,\,\, \textrm{are \textit{orthogonal} at $x \in \mathcal{X}$} &\Leftrightarrow \langle L_g {J}_i (x)^{\top}, L_g {J}_j (x)^{\top} \rangle = 0 \,\,\, \forall \,\, i, j \in \{1,\ldots,N \}
+	\end{align*}
+\end{frame}
+
+\begin{frame}{Introducing ``Interference" Input Cost}
+	\begin{align*}
+                \tilde{J}_{N + 1} \approx \min_{u(\cdot)} \int_t^{\infty} e^{- \beta \tau } \left( q_{N + 1}(x) + { \lVert u \rVert }^2 + { \color{red} \sum_{i = 1}^N ( L_g \tilde{J}_i (x) u)^2 \lambda_i } \right) d \tau
+        \end{align*}
+	\seprule
+	In Proposition 2, we show that by picking large enough values of $\lambda_i$ and successfully fitting the cost functional, we can make the new task, $J_{N + 1}$, independent to previously trained tasks $J_1, \ldots, J_N$. 
+\end{frame}
+
+\begin{frame}
+\end{frame}
 
 
 
