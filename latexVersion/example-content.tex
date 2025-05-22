@@ -35,7 +35,7 @@
 	\end{align*}}
 		\item{Assume that each RL task we learn is encoded with a ``cost-to-go''/value function of the form:
 	\begin{align*}
-		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 d \tau && \text{$q_i$ is P.S.D}
+		J_i (x) &\approx \min_{u(\cdot)} \int_t^{\infty} { \color{gray} e^{- \beta \tau} } \left( q_i(x(\tau))) + {\lVert u(\tau) \rVert}^2 \right) d \tau && \text{$q_i$ is P.S.D}
 	\end{align*}}
 	\end{itemize}
 \end{frame}
@@ -70,7 +70,7 @@
 		u^{\star} &= - \frac{1}{2} ( L_g {J}_i (x) )^{\top} = - \frac{1}{2} g(x)^{\top} \left( \frac{\partial {J}_i}{\partial x} \right)^{\top}
 	\end{align*}
 	\seprule
-	\footnotesize{2] M. Lutter, S. Mannor, J. Peters, D. Fox, and A. Garg, “Value Iteration in Continuous Actions, States and Time,” in Proceedings of the 38th International Conference on Machine Learning, Jul. 2021, vol. 139, pp. 7224–7234.}
+	\footnotesize{[2] M. Lutter, S. Mannor, J. Peters, D. Fox, and A. Garg, “Value Iteration in Continuous Actions, States and Time,” in Proceedings of the 38th International Conference on Machine Learning, Jul. 2021, vol. 139, pp. 7224–7234.}
 \end{frame}
 
 \begin{frame}{Related Work - Independence and Orthogonality for Robotic Control Tasks}
@@ -142,175 +142,60 @@
 	\end{align*}
 \end{frame}
 
-\begin{frame}{Introducing ``Interference" Input Cost}
+\begin{frame}{Introducing ``Interference'' Input Cost}
 	\begin{align*}
-                \tilde{J}_{N + 1} \approx \min_{u(\cdot)} \int_t^{\infty} e^{- \beta \tau } \left( q_{N + 1}(x) + { \lVert u \rVert }^2 + { \color{red} \sum_{i = 1}^N ( L_g \tilde{J}_i (x) u)^2 \lambda_i } \right) d \tau
+		{J}_{N + 1} \approx \min_{u(\cdot)} \int_t^{\infty} { \color{gray}  e^{- \beta \tau } } \left( q_{N + 1}(x) + { \lVert u \rVert }^2 + { \color{red} \sum_{i = 1}^N ( L_g {J}_i (x) u)^2 \lambda_i } \right) d \tau
         \end{align*}
 	\seprule
 	In Proposition 2, we show that by picking large enough values of $\lambda_i$ and successfully fitting the cost functional, we can make the new task, $J_{N + 1}$, independent to previously trained tasks $J_1, \ldots, J_N$. 
 \end{frame}
 
-\begin{frame}
-\end{frame}
-
-
-
-\section{Math Expressions}
-\begin{frame}{Integrals and Other Expressions}
-	\begin{equation}
-		\iint_{\partial\Omega}f(x)\diff{x} \in \complexes
-	\end{equation}
-	\begin{align}
-		E &= mc^2\\
-		F &= ma
-	\end{align}
-
+\begin{frame}{Variant of Value Iteration in Continuous Action Space}
+	Can extend previous work in [2] to approximate this new cost functional.
+	\begin{align*}
+                {J}_{N + 1} \approx \min_{u(\cdot)} \int_t^{\infty} e^{- \beta \tau } \left( q_{N + 1}(x) + { \lVert u \rVert }^2 + { \color{red} \sum_{i = 1}^N ( L_g {J}_i (x) u)^2 \lambda_i } \right) d \tau
+	\end{align*}
+	At each iteration, use the following input to to estimate the next iteration of the value function.
+	\begin{align*}
+                u^{\star} &= - \frac{1}{2} {R(x)}^{-1} ( L_g {J}_{N + 1} (x) )^{\top} \\ 
+                R(x) &= I + \sum_{i = 1}^N ( L_g {J}_i (x) )^{\top} L_g {J}_i (x)
+	\end{align*}
 	\seprule
-	
-	\begin{tabular}{rl}
-		$m$ & Mass\\
-		$c$ & Speed of light
-	\end{tabular}
-\end{frame}
-\begin{frame}{Theorems, Lemmas, ...}
-	\begin{thm}
-		The following statement is correct
-		\begin{equation}
-			\frac{\partial f(\vec{x})}{\partial x_i} = \sum_{l=1}^{L}\cos\left(l\frac{2\pi}{L} + 0\right)
-		\end{equation}
-	\end{thm}
+	\footnotesize{[2] M. Lutter, S. Mannor, J. Peters, D. Fox, and A. Garg, “Value Iteration in Continuous Actions, States and Time,” in Proceedings of the 38th International Conference on Machine Learning, Jul. 2021, vol. 139, pp. 7224–7234.}
 \end{frame}
 
-\section{Elements}
-
-\begin{frame}[fragile]{Typography}
-	\begin{verbatim}The theme provides sensible defaults to
-		\emph{emphasize} text, \alert{accent} parts
-		or show \textbf{bold} results.\end{verbatim}
-	
-	\begin{center}becomes\end{center}
-	
-	The theme provides sensible defaults to \emph{emphasize} text,
-	\alert{accent} parts or show \textbf{bold} results.
+\begin{frame}{Relating Orthogonality to the Optimal Input}
+Proposition 3:\\
+Assume that ${J}_1, \ldots, {J}_N$ are independent at $x \in \mathcal{X}$.\\
+If we train a new cost-to-go function, ${J}_{N + 1}$ to be independent to ${J}_1, \ldots, {J}_N$,\\
+${J}_{N + 1}$ is orthogonal to each of ${J}_1, \ldots, {J}_N$ at $x \in \mathcal{X}$.\\ 
+$\Leftrightarrow$\\ 
+the optimal input is $- \frac{1}{2} L_g {J}_{N + 1} (x)^{\top}$.
 \end{frame}
 
-\begin{frame}{Font feature test}
+\begin{frame}{Now they ARE compatible.}
+	\begin{align*}
+		{J}_1 &\rightarrow \textrm{Learn to avoid square-shaped region} \\
+		{J}_2 &\rightarrow \textrm{Learn to go to a point}
+	\end{align*}
+	<ADD ``ANIMATION">
+\end{frame}
+
+\begin{frame}{Now they ARE compatible.}
+	\begin{minipage}{\textwidth}
+		\centering		
+		\includegraphics[width=1.\linewidth]{diagramMath2}
+	\end{minipage}%
+	\seprule
 	\begin{itemize}
-		\item Regular
-		\item \textit{Italic}
-		\item \textsc{Small Caps}
-		\item \textbf{Bold}
-		\item \textbf{\textit{Bold Italic}}
-		\item \textbf{\textsc{Bold Small Caps}}
-		\item \texttt{Monospace}
-		\item \texttt{\textit{Monospace Italic}}
-		\item \texttt{\textbf{Monospace Bold}}
-		\item \texttt{\textbf{\textit{Monospace Bold Italic}}}
+		\item{The above are heat maps of the two value functions.}
+		\item{Combining them results in the trajectory on the right.}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Lists}
-	\begin{columns}[T,onlytextwidth]
-		\column{0.33\textwidth}
-		Items
-		\begin{itemize}
-			\item Milk \item Eggs \item Potatoes
-		\end{itemize}
-		
-		\column{0.33\textwidth}
-		Enumerations
-		\begin{enumerate}
-			\item First, \item Second and \item Last.
-		\end{enumerate}
-		
-		\column{0.33\textwidth}
-		Descriptions
-		\begin{description}
-			\item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
-		\end{description}
-	\end{columns}
-\end{frame}
-\begin{frame}{Tables}
-	\begin{table}
-		\caption{Largest cities in the world (source: Wikipedia)}
-		\begin{tabular}{@{} lr @{}}
-			\toprule
-			City & Population\\
-			\midrule
-			Mexico City & 20,116,842\\
-			Shanghai & 19,210,000\\
-			Peking & 15,796,450\\
-			Istanbul & 14,160,467\\
-			\bottomrule
-		\end{tabular}
-	\end{table}
-\end{frame}
-\begin{frame}{Blocks}
-	Three different block environments are pre-defined and may be styled with an
-	optional background color.
-	
-	\begin{columns}[T,onlytextwidth]
-		\column{0.45\textwidth}
-		\begin{block}{Default}
-			Block content.
-		\end{block}
-		
-		\begin{alertblock}{Alert}
-			Block content.
-		\end{alertblock}
-		
-		\begin{exampleblock}{Example}
-			Block content.
-		\end{exampleblock}
-		
-		\column{0.45\textwidth}
-		
-		\metroset{block=fill}
-		
-		\begin{block}{Default}
-			Block content.
-		\end{block}
-		
-		\begin{alertblock}{Alert}
-			Block content.
-		\end{alertblock}
-		
-		\begin{exampleblock}{Example}
-			Block content.
-		\end{exampleblock}
-		
-	\end{columns}
-\end{frame}
-\begin{frame}{Line plots}
-	\begin{figure}
-		\begin{tikzpicture}
-			\begin{axis}[
-				betterplot,
-				width=0.9\textwidth,
-				height=6cm,
-				]
-				
-				\addplot {sin(deg(x))};
-				\addplot+[samples=100] {sin(deg(2*x))};
-				
-			\end{axis}
-		\end{tikzpicture}
-	\end{figure}
+\begin{frame}{We tried our idea on other scenarios.}
+	Add pictures here.
 \end{frame}
 
-\begin{frame}[standout,plain]
-	Standout Frame!
-\end{frame}
+\end{document}
 
-
-\appendix
-\begin{frame}[fragile]{Backup slides}
-	Sometimes, it is useful to add slides at the end of your presentation to
-	refer to during audience questions.
-	
-	The best way to do this is to include the \verb|appendixnumberbeamer|
-	package in your preamble and call \verb|\appendix| before your backup slides.
-	
-	The theme will automatically turn off slide numbering and progress bars for
-	slides in the appendix.
-\end{frame}
